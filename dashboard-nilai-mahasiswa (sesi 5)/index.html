@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Nilai Mahasiswa</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">DASHBOARD AKADEMIK</p>
+      <h1>Nilai Mahasiswa</h1>
+      <p class="subtitle">Ringkasan dan visualisasi hasil belajar mahasiswa.</p>
+    </div>
+    <div class="top-badge">Semester Ganjil</div>
+  </header>
+
+  <main class="container">
+    <section class="stats" aria-label="Ringkasan nilai">
+      <article class="stat-card">
+        <p>Jumlah Mahasiswa</p>
+        <h2 id="totalStudents">0</h2>
+        <span>Data terdaftar</span>
+      </article>
+      <article class="stat-card">
+        <p>Rata-rata Nilai</p>
+        <h2 id="averageScore">0</h2>
+        <span>Dari seluruh mahasiswa</span>
+      </article>
+      <article class="stat-card">
+        <p>Nilai Tertinggi</p>
+        <h2 id="highestScore">0</h2>
+        <span id="highestStudent">-</span>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <div>
+          <h2>Perbandingan Nilai</h2>
+          <p>Grafik membantu membandingkan nilai setiap mahasiswa.</p>
+        </div>
+        <label class="filter">
+          Pilih mahasiswa
+          <select id="studentFilter">
+            <option value="all">Semua mahasiswa</option>
+          </select>
+        </label>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="scoreChart" aria-label="Grafik batang nilai mahasiswa"></canvas>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <div>
+          <h2>Data Nilai Mahasiswa</h2>
+          <p>Nilai contoh untuk demonstrasi dashboard.</p>
+        </div>
+        <span id="rowCount" class="count-badge">0 data</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>No.</th><th>Nama Mahasiswa</th><th>Nilai</th><th>Keterangan</th></tr>
+          </thead>
+          <tbody id="studentTable"></tbody>
+        </table>
+      </div>
+      <p class="note">Catatan: data di halaman ini merupakan data contoh, bukan nilai mahasiswa sebenarnya.</p>
+    </section>
+  </main>
+
+  <footer>Proyek IMK dan Visualisasi Data • Dashboard Nilai Mahasiswa</footer>
+  <script src="script.js"></script>
+</body>
+</html>

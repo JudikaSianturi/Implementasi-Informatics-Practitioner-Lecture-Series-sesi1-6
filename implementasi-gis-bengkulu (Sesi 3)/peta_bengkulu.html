@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemetaan Fasilitas Umum Bengkulu</title>
+
+    <!-- Library Leaflet untuk menampilkan peta -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #0f766e;
+            color: white;
+            text-align: center;
+            padding: 22px 15px;
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+            font-size: 25px;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 24px auto;
+            padding: 0 16px;
+        }
+
+        .info {
+            background: white;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 8px #00000010;
+        }
+
+        .info h2 {
+            margin-top: 0;
+            color: #0f766e;
+            font-size: 19px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 16px;
+            flex: 1;
+            min-width: 150px;
+            box-shadow: 0 2px 8px #00000010;
+        }
+
+        .stat-card strong {
+            display: block;
+            font-size: 24px;
+            color: #0f766e;
+            margin-bottom: 5px;
+        }
+
+        #map {
+            height: 480px;
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            z-index: 1;
+        }
+
+        .note {
+            margin-top: 16px;
+            padding: 14px;
+            background: #fff7ed;
+            border-left: 4px solid #f59e0b;
+            border-radius: 6px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 21px;
+            }
+
+            #map {
+                height: 380px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Pemetaan Fasilitas Umum</h1>
+        <p>Studi Kasus Sistem Informasi Geografis (GIS)</p>
+        <p>Kota Bengkulu</p>
+    </header>
+
+    <main class="container">
+        <section class="info">
+            <h2>Tentang Pemetaan</h2>
+            <p>
+                Website ini merupakan contoh penerapan GIS untuk
+                menampilkan lokasi fasilitas umum dalam bentuk peta
+                interaktif. Klik penanda pada peta untuk melihat
+                informasi setiap lokasi.
+            </p>
+        </section>
+
+        <section class="stats">
+            <div class="stat-card">
+                <strong id="total">0</strong>
+                Lokasi ditampilkan
+            </div>
+
+            <div class="stat-card">
+                <strong>GIS</strong>
+                Teknologi pemetaan
+            </div>
+        </section>
+
+        <section>
+            <h2>Peta Lokasi</h2>
+            <div id="map"></div>
+        </section>
+
+        <div class="note">
+            <strong>Catatan:</strong> Lokasi dan koordinat di bawah
+            merupakan data ilustrasi untuk demonstrasi, bukan data
+            fasilitas nyata yang telah diverifikasi. Gunakan koordinat
+            yang benar sebelum menjadikan peta ini sebagai pemetaan nyata.
+            Peta dasar memerlukan koneksi internet.
+        </div>
+    </main>
+
+    <footer>
+        Implementasi GIS sederhana menggunakan HTML, CSS, JavaScript,
+        dan Leaflet.
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        // Data ilustrasi fasilitas umum
+        const fasilitas = [
+            {
+                nama: "Lokasi Pendidikan",
+                jenis: "Pendidikan",
+                lat: -3.8000,
+                lon: 102.2650
+            },
+            {
+                nama: "Lokasi Kesehatan",
+                jenis: "Kesehatan",
+                lat: -3.8100,
+                lon: 102.2750
+            },
+            {
+                nama: "Lokasi Fasilitas Umum",
+                jenis: "Fasilitas Umum",
+                lat: -3.7900,
+                lon: 102.2550
+            }
+        ];
+
+        // Membuat peta yang berpusat di Bengkulu
+        const map = L.map("map").setView(
+            [-3.8000, 102.2650],
+            13
+        );
+
+        // Menambahkan peta dasar
+        L.tileLayer(
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            {
+                attribution: "&copy; OpenStreetMap contributors",
+                maxZoom: 19
+            }
+        ).addTo(map);
+
+        // Menambahkan penanda dan informasi lokasi
+        fasilitas.forEach(function(tempat) {
+            L.marker([tempat.lat, tempat.lon])
+                .addTo(map)
+                .bindPopup(
+                    "<b>" + tempat.nama + "</b><br>" +
+                    "Jenis: " + tempat.jenis + "<br>" +
+                    "Latitude: " + tempat.lat + "<br>" +
+                    "Longitude: " + tempat.lon
+                )
+                .bindTooltip(tempat.nama);
+        });
+
+        // Menampilkan jumlah lokasi
+        document.getElementById("total").textContent =
+            fasilitas.length;
+    </script>
+</body>
+</html>
